@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # Filename: pyCoinc.py
 
+import numpy as np
+
 
 timeListdType = [('time', float)]
 energyListdType = [('energy', float), ('time', float)]
@@ -74,7 +76,7 @@ def getCoincCount(startTimes, stopTimes, stopTimeShift, resolvingWindow, debug=F
     
     return np.size(startIndices)
 
-def coincidenceTiming(startChannel, stopThis fChannel, startIndices, stopIndices):
+def coincidenceTiming(startChannel, stopChannel, startIndices, stopIndices):
     tDiff = stopChannel['time'][stopIndices] - startChannel['time'][startIndices]
     return tDiff
 
