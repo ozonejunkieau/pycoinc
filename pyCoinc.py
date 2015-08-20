@@ -2,6 +2,8 @@
 # Filename: pyCoinc.py
 
 import numpy as np
+import matplotlib.gridspec as gs
+import matplotlib.pyplot as plt
 
 
 timeListdType = [('time', float)]
@@ -93,3 +95,46 @@ def getCoincCountRange(startTimes, stopTimes, startTimeShift, stopTimeShift, res
     for n, offset in enumerate(offsets):
         coincCounts[n]  = getCoincCount(startTimes,stopTimes,offset,resolvingWindow,debug=False)
     return offsets, coincCounts
+
+def coincidencePlots(startChannel, stopChannel, startIndices, stopIndices, plotRatio=4, bins=100):
+    if 'energy' not in startChannel.dtype.fields:
+        return "ERROR"
+    
+    #get energies of coincidence events
+    coincEnStartChannel, coincEnStopChannel = coincidenceEnergies(startChannel,stopChannel,startIndices, stopIndices)
+
+    #set up limits of graphs
+    startMin = np.min(startChannel['energy'][startIndices])
+    startMax = np.max(startChannel['energy'][startIndices])
+    stopMin = np.min(stopChannel['energy'][stopIndices])
+    stopMax = np.max(stopChannel['energy'][stopIndices])
+
+    fig = plt.figure(figsize=(15,15))  #create figure object
+    
+    g = gs.GridSpec(2,2,width_ratios=[1,plotRatio],height_ratios=[plotRatio,1]) #create grid for plots
+
+    plt.subplot(g[0,0])             # top left, stop energy histogram
+    plt.hist(coincEnStopChannel,bins,orientation="horizontal",range=[stopMin,stopMax]);
+    plt.ylim([stopMin,stopMax])
+
+
+    plt.subplot(g[0,1])             # top right, 2d historgram
+    hpl = plt.hexbin(startChannel['energy'][startIndices],stopChannel['energy'][stopIndices],cmap=plt.cm.nipy_spectral,mincnt=1,gridsize=bins)
+    plt.title('Coincidence Matrix')
+    plt.xlabel('Start Energy')
+    plt.ylabel('Stop Energy')
+
+
+    plt.subplot(g[1,0])             # bottom left, timing histogram
+    coincTiming = coincidenceTiming(startChannel,stopChannel,startIndices,stopIndices)
+    plt.hist(coincTiming,512,log=True);
+    plt.xlabel('deltaTime')
+
+
+    plt.subplot(g[1,1])             # bottom right, start enery histogram
+    plt.hist(coincEnStartChannel,bins,range=[startMin,startMax]);
+    plt.xlim([startMin,startMax])
+
+    plt.tight_layout()
+    
+    return fig
