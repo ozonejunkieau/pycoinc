@@ -82,7 +82,7 @@ def coincidenceTiming(startChannel, stopChannel, startIndices, stopIndices):
 
 def coincidenceEnergies(startChannel, stopChannel, startIndices, stopIndices):
     #returns an array of coincident event energies
-    return startChannel['energy'][startInds], stopChannel['energy'][stopInds]
+    return startChannel['energy'][startIndices], stopChannel['energy'][stopIndices]
 
 def getCoincCountRange(startTimes, stopTimes, startTimeShift, stopTimeShift, resolvingWindow, NumSteps = 15):
     #checks a range of values for coincidence counts
