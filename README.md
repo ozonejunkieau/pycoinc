@@ -7,6 +7,8 @@ The basic data structure used by this code is a NumPy array of specified type. V
 
 Each array represents a single channel of data. Times are assumed to sorted.
 
+![alt tag](https://raw.githubusercontent.com/ozonejunkieau/pycoinc/master/Documentation/coincplot.png)
+
 **pyCoinc.getCoincIndices(startTimes, stopTimes, stopTimeShift, resolvingWindow, debug=False)**
 
 This function returns coincidence incidences given a set of resolving parameters. It does not modify data that is parsed to it, merely returning element numbers that form coincidence events.
