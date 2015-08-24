@@ -49,3 +49,11 @@ By plotting offsets vs. counts, it is possible to deduce the channel offset requ
 
 *Return format is two arrays: offsets, counts.*
 
+
+**def coincidencePlots(startChannel, stopChannel, startIndices, stopIndices, plotRatio=4, bins=100)**
+
+This function generates a plot of the coincidence data given two channels and coincident indices. 
+* plotRatio is the ratio of plot sizes. The plot sizes are N:1, defaulting to 4.
+* bins is the number of bins used in the histograms and the hexbin routine for the intensity plots.
+
+*Return type is a a pyplot figure.
